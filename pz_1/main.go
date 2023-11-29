@@ -52,6 +52,7 @@ func main() {
 	fmt.Printf("Добуток додатних чисел другого рядка: %d\n", product)
 
 	// Task 6
+	fmt.Printf("[Task 6]\n")
 	describeStudents()
 
 }
