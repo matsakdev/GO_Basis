@@ -41,7 +41,6 @@ func (array TwoDimensionalArray) Task1() TwoDimensionalArray {
 	return array
 }
 
-// Перевизначений метод для перевірки, чи число є числом Фібоначчі
 func isFibonacci(num int) bool {
 	a, b := 0, 1
 	for b <= num {
@@ -77,7 +76,6 @@ func (array Array) Task1() {
 }
 
 func demonstration() {
-	// Демонстраційна програма для одновимірного масиву
 	oneDimArray := OneDimensionalArray{
 		arr: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 21},
 	}
@@ -85,7 +83,6 @@ func demonstration() {
 	oneDimArray = oneDimArray.Task1()
 	fmt.Println("Одновимірний масив після видалення чисел Фібоначчі:", oneDimArray)
 
-	// Демонстраційна програма для двовимірного масиву
 	twoDimArray := TwoDimensionalArray{
 		arr: [][]int{
 			{5, 4, 3, 2, 1},
