@@ -75,13 +75,13 @@ func (array Array) Task1() {
 	fmt.Println("Пуста структура")
 }
 
-func demonstration() {
+func task1Demonstration() {
 	oneDimArray := OneDimensionalArray{
 		arr: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 21},
 	}
-	fmt.Println("Одновимірний масив до видалення чисел Фібоначчі:", oneDimArray)
+	fmt.Println("Одновимірний масив до видалення чисел Фібоначчі:", oneDimArray.arr)
 	oneDimArray = oneDimArray.Task1()
-	fmt.Println("Одновимірний масив після видалення чисел Фібоначчі:", oneDimArray)
+	fmt.Println("Одновимірний масив після видалення чисел Фібоначчі:", oneDimArray.arr)
 
 	twoDimArray := TwoDimensionalArray{
 		arr: [][]int{
@@ -126,9 +126,9 @@ func demonstration() {
 
 	tdInterface = twoDimArray2
 
-	fmt.Println("[Interface] Двовимірний масив до сортування стовпців за спаданням:", twoDimArray2)
+	fmt.Println("[Interface] Двовимірний масив до сортування стовпців за спаданням:", tdInterface)
 
 	tdInterface.Task1()
 
-	fmt.Println("[Interface] Двовимірний масив після сортування стовпців за спаданням:", twoDimArray2)
+	fmt.Println("[Interface] Двовимірний масив після сортування стовпців за спаданням:", tdInterface)
 }

@@ -1,6 +1,6 @@
 package main
 
 func main() {
-	//demonstration()
+	task1Demonstration()
 	testMethods()
 }
