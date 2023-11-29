@@ -34,7 +34,7 @@ func allTwos(arr [5]int) bool {
 func describeStudents() {
 	var STUD1 [10]STUDENT
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 10; i++ {
 		reader := bufio.NewReader(os.Stdin) // fmt.Scan works incorrect
 		fmt.Printf("Введіть дані для студента #%d:\n", i+1)
 		fmt.Print("Прізвище та ініціали: ")
