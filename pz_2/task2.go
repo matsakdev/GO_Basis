@@ -32,7 +32,7 @@ func printPersonInfo(p Person) {
 
 func printWorkerInfo(w Worker) {
 	fmt.Printf("Прізвище: %s\nАдреса: %s\nВік: %d\n"+
-		"Позиція: %s\nДосвід: %d\nВік: %d\nЗарплата", w.Name, w.Address, w.Age, w.Position, w.Experience, w.Salary)
+		"Позиція: %s\nДосвід: %d\nЗарплата: %d\n", w.Name, w.Address, w.Age, w.Position, w.Experience, w.Salary)
 }
 
 func findMaxSalaryForOddElements(workers ...Worker) int {
@@ -75,7 +75,19 @@ type RootSolver interface {
 	Solve(a, b, epsilon float64) float64
 }
 
-func halfDivisionMethod(a, b, epsilon float64) float64 {
+type MathInterface interface {
+	SquareFunction(x float64) float64
+}
+
+type DegreeStruct struct {
+	degree float64
+}
+
+type LineSegmentFunctionStruct struct {
+	point1 float64
+}
+
+func halfDivisionMethod(a, b, epsilon float64, function func(float64) float64) float64 {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("Panic occurred:", r)
@@ -84,7 +96,7 @@ func halfDivisionMethod(a, b, epsilon float64) float64 {
 	}()
 	for math.Abs(b-a) > epsilon {
 		c := (a + b) / 2
-		if f(c)*f(a) < 0 {
+		if function(c)*function(a) < 0 {
 			b = c
 		} else {
 			a = c
@@ -93,25 +105,31 @@ func halfDivisionMethod(a, b, epsilon float64) float64 {
 	return (a + b) / 2
 }
 
-func f(x float64) float64 {
+func (function DegreeStruct) SquareFunction(x float64) float64 {
+	x = math.Pow(x, function.degree)
 	return 0.25*x*x*x + x - 1.2502
 }
 
-func testMethods() {
+func (function LineSegmentFunctionStruct) SquareFunction(x float64) float64 {
+	x = math.Abs(function.point1 - x)
+	return 0.25*x*x*x + x - 1.2502
+}
+
+func task2() {
 	person1 := Person{
 		Name:    "ss ff",
 		Age:     19,
-		Address: "pohui",
+		Address: "Address 1",
 	}
 	person2 := Person{
 		Name:    "ss ff",
 		Age:     23,
-		Address: "pohui",
+		Address: "Address 2",
 	}
 	person3 := Person{
 		Name:    "nii oao",
 		Age:     5,
-		Address: "pohui 3",
+		Address: "Address 3",
 	}
 
 	persons := PersonsArray{
@@ -143,51 +161,46 @@ func testMethods() {
 		},
 	}
 
+	fmt.Println("\nPerson 1 info:")
+	printPersonInfo(person1)
+	fmt.Println("\nWorker 3 info:")
+	printWorkerInfo(workers.Workers[2])
+
+	fmt.Println("\nPersons before sorting:")
+	fmt.Println(persons)
+
 	persons.getSortedArray()
+	fmt.Println("\nSorted Persons (by Age):")
+	fmt.Println(persons)
+
+	fmt.Println("\nWorkers before sorting:")
+	fmt.Println(workers)
 
 	workers.getSortedArray()
+	fmt.Println("\nSorted Workers (by Salary):")
+	fmt.Println(workers)
 
+	fmt.Println("\nMax Salary For Odd Workers:")
+	maxSalary := findMaxSalaryForOddElements(workers.Workers[0], workers.Workers[1], workers.Workers[2], workers.Workers[2])
+	fmt.Println(maxSalary)
+
+	a := 1.5
+	b := 0.9
+	epsilon := 0.0001
+
+	basicFunc := DegreeStruct{degree: 1.0}
+	lineSegmentFunc := LineSegmentFunctionStruct{point1: 1.2}
+
+	var i MathInterface
+
+	i = &basicFunc
+
+	fmt.Println("\nHalf division method for degree function (a || b)^DegreeStruct.degree")
+	result := halfDivisionMethod(a, b, epsilon, i.SquareFunction)
+	fmt.Printf("\n%.5f\n", result)
+
+	fmt.Println("\nHalf division method for line segment | (a || b) - LineSegmentFunctionStruct.point1 |")
+	i = &lineSegmentFunc
+	result = halfDivisionMethod(a, b, epsilon, i.SquareFunction)
+	fmt.Printf("\n%.5f\n", result)
 }
-
-//func main2() {
-//	// Ініціалізація масиву структур
-//	people := []Person{
-//		{Name: "Іванов", Address: "Київ", BirthDate: "01.01.1990"},
-//		{Name: "Петров", Address: "Львів", BirthDate: "15.05.1985"},
-//		{Name: "Сидоров", Address: "Одеса", BirthDate: "20.11.2000"},
-//	}
-//
-//	// 1) Виклик функції з параметрами, що замовчуються
-//	printPersonInfo(people[0], 33)
-//
-//	// 2) Виклик функції зі змінним числом параметрів
-//	max := findMaxOdd(4, 8, 15, 7, 25, 12, 10)
-//	fmt.Printf("Максимальний елемент на непарних позиціях: %d\n", max)
-//
-//	// 3) Виклик методу сортування масиву
-//	people.selectionSort()
-//	fmt.Println("Відсортований масив:")
-//	for _, person := range people {
-//		fmt.Printf("Прізвище: %s, Адреса: %s, Дата народження: %s\n", person.Name, person.Address, person.BirthDate)
-//	}
-//
-//	// Відрізок, що містить корінь
-//	a := 0.0
-//	b := 2.0
-//	// Точне значення коріння
-//	expectedRoot := 1.0001
-//
-//	// Створюємо об'єкт, який реалізує інтерфейс RootSolver
-//	var solver RootSolver
-//	solver = &f
-//
-//	// Знаходимо корінь
-//	root := solver.Solve(a, b, 0.0001)
-//
-//	// Порівнюємо знайдений корінь з точним значенням
-//	if math.Abs(root-expectedRoot) > 0.0001 {
-//		fmt.Println("Знайдений корінь не відповідає точному значенню")
-//	} else {
-//		fmt.Printf("Знайдений корінь: %.4f\n", root)
-//	}
-//}

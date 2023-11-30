@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-// this is a comment
 func main() {
 	// Task 1
 	fmt.Printf("[Task 1]\n")
